@@ -9,7 +9,7 @@ Required:
     - python-dotenv>=1.0.0
 
 """
-
+import sys
 
 # Futures local application libraries, source package
 from addscriptdir2path import add_package2env_var
@@ -42,7 +42,7 @@ def main() -> None:
     path2output_dir = args_cli_values.path2out
     path2bam_files = args_cli_values.path2bam
     path2bed = args_cli_values.path2bed
-    bed_file_extension = args_cli_values.bam_extension
+    bed_file_extension = args_cli_values.bed_extension
     bam_file_extension = args_cli_values.bam_extension
 
     try:
@@ -51,6 +51,8 @@ def main() -> None:
         bed_file: str = get_first_element(globally_get_all_files(path2bed, bed_file_extension))
 
         bam_operator: BamOperator = BamOperator(all_bam_files, bed_file, path2output_dir)
+
+        bam_operator.process_bam_files()
 
     except (ValueError, TypeError, FileNotFoundError) as e:
 
