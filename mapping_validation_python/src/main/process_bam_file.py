@@ -13,7 +13,9 @@ Required:
 
 # Futures local application libraries, source package
 from addscriptdir2path import add_package2env_var
+from package.bamoperations.bamoperations import BamOperator
 from package.commandlineoperations.commandline_input_argument_getter import CliInputArgumentGetter
+from package.fileoperations.filehandlers import globally_get_all_files
 from package.profiling.profiling import begin_profiling, end_profiling, ProfileLogger
 
 # re-define system path to include modules, packages
@@ -37,17 +39,29 @@ def main() -> None:
     CliInputArgumentGetter.check_input_arguments(args_cli_values)
 
     path2output_dir = args_cli_values.path2out
-    path2bamfile = args_cli_values.path2bam
-    path2fasta = args_cli_values.path2fasta
-    #
-    # path_to_bismark_bam_files = args_cli_values.path2bismark_bam
-    # path_to_bwa_bam_files = args_cli_values.path2bwa_meth_bam
-    # path_to_genome_fasta = args_cli_values.path2genome
-    # alignment_file_extension = args_cli_values.file_extension
-    #
-    # bam_operator: BamOperator = BamOperator(path_to_bismark_bam_files, path_to_bwa_bam_files, path_to_genome_fasta)
-    #
-    # bam_operator.process_bam_files(alignment_file_extension)
+    path2bam_files = args_cli_values.path2bam
+    path2bed = args_cli_values.path2bed
+    # bed_file_extension = args_cli_values.bam_extension
+    bam_file_extension = args_cli_values.bam_extension
+
+    try:
+
+        all_bam_files: list = globally_get_all_files(path2bam_files, bam_file_extension)
+        all_bed_files: list = globally_get_all_files(path2bed, bed_file_extension)
+
+        bam_operator: BamOperator = BamOperator(all_bam_files, path2bed, path2output_dir)
+
+    except (ValueError, TypeError, FileNotFoundError) as e:
+
+        if isinstance(e, ValueError):
+            raise ValueError(e)
+
+        if isinstance(e, TypeError):
+            raise TypeError(e)
+
+        if isinstance(e, FileNotFoundError):
+            raise FileNotFoundError(e)
+
 
 
 ###################################################################################
