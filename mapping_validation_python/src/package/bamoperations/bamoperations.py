@@ -1,11 +1,10 @@
 """
 A collection of classes or functions that performs bam processing operations
 """
-import sys
+import json
+import os.path
 
 import pysam
-
-# import pysam
 
 from package.datastructureoperations.listoperations.listhandlers import (get_first_element, get_second_element,
                                                                          get_third_element)
@@ -45,8 +44,17 @@ class BamOperator:
 
         bed_file_content: list[str] = read_csv(self.bed_file, delimiter=Delimiters.TAB_SEPERATOR,)
 
-        for bam_file in self.bam_files:
-            BamOperator.__process_bam_file(bam_file, bed_file_content)
+        for count, bam_file in enumerate(self.bam_files):
+
+            file_basename: str = str(count).join(["read_counts", ".json"])
+
+            json_output_file: str = os.path.join(self.output_directory, file_basename)
+
+            output_read_counts: dict = BamOperator.__process_bam_file(bam_file, bed_file_content)
+
+            with open(json_output_file, "w") as json_output_file_content:
+
+                json.dump(output_read_counts, json_output_file_content)
 
     @classmethod
     def __process_bam_file(cls, bam_file: str, bed_file_content: list[str]) -> dict:
@@ -54,27 +62,40 @@ class BamOperator:
 
         with pysam.AlignmentFile(bam_file, "rb") as bam_file_content:
 
-            read_interval_counts = {}
+            return BamOperator.__process_bed_file_content(bed_file_content, bam_file_content)
 
-            for line in bed_file_content:
-                chromosome, start, end = get_first_element(line), get_second_element(line), get_third_element(line)
-                start, end = int(start), int(end)
+    @classmethod
+    def __process_bed_file_content(cls, bed_file_content: list, bam_file_content: object()) -> dict:
+        """ process bed file content """
 
-                reads: list = []
+        read_interval_counts = {}
 
-                for read in bam_file_content:
+        for line in bed_file_content:
+            chromosome, start, end = get_first_element(line), get_second_element(line), get_third_element(line)
+            start, end = int(start), int(end)
 
-                    if read.is_mapped:
+            read_names: list = BamOperator.__process_bed_line(line, bam_file_content)
 
-                        if read.reference_name == chromosome and read.reference_start >= start and \
-                                read.reference_end <= end:
-                            reads.append(read)
-                            print(len(read.query_sequence), read.query_alignment_length,
-                                  len(read.get_reference_sequence()))
+            read_interval_counts[str((chromosome, start, end))] = len(read_names)
 
-                read_interval_counts[(chromosome, start, end)] = len(reads)
+        return read_interval_counts
 
-                sys.exit()
+    @classmethod
+    def __process_bed_line(cls, line: str, bam_file_content: object()) -> list[str]:
+        """ process bed file """
+
+        chromosome, start, end = get_first_element(line), get_second_element(line), get_third_element(line)
+        start, end = int(start), int(end)
+
+        reads: list = []
+
+        for read in bam_file_content:
+
+            if read.is_mapped and read.reference_name == chromosome:
+                if read.reference_start >= start and read.reference_end <= end:
+                    reads.append(read)
+
+        return reads
 
 
 

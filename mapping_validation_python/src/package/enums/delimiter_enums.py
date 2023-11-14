@@ -7,3 +7,4 @@ class Delimiters:
     """ defines delimiters """
 
     TAB_SEPERATOR = "\t"
+    FULL_STOP = ":"
