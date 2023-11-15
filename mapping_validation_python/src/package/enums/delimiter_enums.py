@@ -7,4 +7,6 @@ class Delimiters:
     """ defines delimiters """
 
     TAB_SEPERATOR = "\t"
-    FULL_STOP = ":"
+    HYPHEN = "-"
+    FASTA_IDENTIFIER = ">"
+    NEW_LINER = "\n"

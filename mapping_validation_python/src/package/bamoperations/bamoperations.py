@@ -1,15 +1,15 @@
 """
 A collection of classes or functions that performs bam processing operations
 """
-import json
-import os.path
 
+import os.path
 import pysam
 
 from package.datastructureoperations.listoperations.listhandlers import (get_first_element, get_second_element,
                                                                          get_third_element)
 from package.enums.delimiter_enums import Delimiters
 from package.fileoperations.filehandlers import read_csv
+from package.fileoperations.filewriters import FileWriter
 
 
 class BamOperator:
@@ -19,8 +19,7 @@ class BamOperator:
     bed_file = None
     output_directory = None
 
-    def __init__(self, bam_files: list, bed_file: str,
-                 output_directory: str) -> None:
+    def __init__(self, bam_files: list, bed_file: str, output_directory: str) -> None:
         """
         Constructor
 
@@ -42,60 +41,107 @@ class BamOperator:
     def process_bam_files(self) -> None:
         """process bam files """
 
-        bed_file_content: list[str] = read_csv(self.bed_file, delimiter=Delimiters.TAB_SEPERATOR,)
+        bed_file_content: list[str] = read_csv(self.bed_file, delimiter=Delimiters.TAB_SEPERATOR, )
 
         for count, bam_file in enumerate(self.bam_files):
 
-            file_basename: str = str(count).join(["read_counts", ".json"])
+            output_read_counts_sequences: tuple = BamOperator.__process_bam_file(bam_file, bed_file_content)
 
-            json_output_file: str = os.path.join(self.output_directory, file_basename)
+            output_read_counts: dict = get_first_element(output_read_counts_sequences)
 
-            output_read_counts: dict = BamOperator.__process_bam_file(bam_file, bed_file_content)
+            fasta_sequences: str = BamOperator.__generate_fasta(get_second_element(output_read_counts_sequences))
 
-            with open(json_output_file, "w") as json_output_file_content:
-
-                json.dump(output_read_counts, json_output_file_content)
+            BamOperator.__write_to_out(output_read_counts, fasta_sequences,
+                                       BamOperator.__prepare_json_filenames(count, self.output_directory),
+                                       BamOperator.__prepare_fasta_filenames(count, self.output_directory))
 
     @classmethod
-    def __process_bam_file(cls, bam_file: str, bed_file_content: list[str]) -> dict:
+    def __prepare_json_filenames(cls, count: int, output_directory) -> str:
+        """ prepare json filenames """
+
+        __file_basename_json: str = str(count).join(["read_counts", ".json"])
+
+        json_output_file: str = os.path.join(output_directory, __file_basename_json)
+
+        return json_output_file
+
+    @classmethod
+    def __prepare_fasta_filenames(cls, count: int, output_directory) -> str:
+        """ prepare fasta filenames """
+
+        __file_basename_fasta: str = str(count).join(["fasta_sequence", ".fasta"])
+
+        fasta_output_file: str = os.path.join(output_directory, __file_basename_fasta)
+
+        return fasta_output_file
+
+    @classmethod
+    def __write_to_out(cls, output_read_counts: dict, fasta_sequences: str,
+                       json_output_file: str, fasta_output_file: str) -> None:
+        """Writes the output to the output file. """
+
+        file_writer_json: FileWriter = FileWriter(json_output_file, "w")
+
+        file_writer_json.write_json(output_read_counts)
+
+        file_writer_fasta: FileWriter = FileWriter(fasta_output_file, "w")
+
+        file_writer_fasta.write_str(fasta_sequences)
+
+    @classmethod
+    def __generate_fasta(cls, read_ids_sequences: list) -> str:
+        """ Generate fasta file from read_ids_sequences """
+
+        fasta_sequences: list = [
+            Delimiters.FASTA_IDENTIFIER + Delimiters.NEW_LINER.join([read_query_id, read_sequence])
+            for element in read_ids_sequences
+            for read_query_id, read_sequence in
+            element.items()
+        ]
+
+        return Delimiters.NEW_LINER.join(fasta_sequences)
+
+    @classmethod
+    def __process_bam_file(cls, bam_file: str, bed_file_content: list[str]) -> tuple:
         """ process each bam file """
 
         with pysam.AlignmentFile(bam_file, "rb") as bam_file_content:
-
             return BamOperator.__process_bed_file_content(bed_file_content, bam_file_content)
 
     @classmethod
-    def __process_bed_file_content(cls, bed_file_content: list, bam_file_content: object()) -> dict:
+    def __process_bed_file_content(cls, bed_file_content: list, bam_file_content: object()) -> tuple:
         """ process bed file content """
 
         read_interval_counts = {}
+        read_sequences = []
 
         for line in bed_file_content:
             chromosome, start, end = get_first_element(line), get_second_element(line), get_third_element(line)
             start, end = int(start), int(end)
 
-            read_names: list = BamOperator.__process_bed_line(line, bam_file_content)
+            read_names_sequence_pairs: dict = BamOperator.__process_bed_line(line, bam_file_content)
 
-            read_interval_counts[str((chromosome, start, end))] = len(read_names)
+            read_counts_key: str = Delimiters.HYPHEN.join([chromosome, str(start), str(end)])
 
-        return read_interval_counts
+            read_interval_counts[read_counts_key] = len(list(read_names_sequence_pairs.keys()))
+
+            read_sequences.append(read_names_sequence_pairs)
+
+        return read_interval_counts, read_sequences
 
     @classmethod
-    def __process_bed_line(cls, line: str, bam_file_content: object()) -> list[str]:
+    def __process_bed_line(cls, line: str, bam_file_content: object()) -> dict:
         """ process bed file """
 
         chromosome, start, end = get_first_element(line), get_second_element(line), get_third_element(line)
         start, end = int(start), int(end)
 
-        reads: list = []
+        reads: dict = {}
 
         for read in bam_file_content:
 
             if read.is_mapped and read.reference_name == chromosome:
                 if read.reference_start >= start and read.reference_end <= end:
-                    reads.append(read)
+                    reads[read.query_name] = read.query_sequence
 
         return reads
-
-
-
