@@ -4,9 +4,9 @@ This script:
     2. extract reads in the regions and convert it into a FASTA file
 
 Required:
-    - Pandas
     - Python >= 3.10
     - python-dotenv>=1.0.0
+    - for additional dependencies, see requirements.txt
 
 """
 

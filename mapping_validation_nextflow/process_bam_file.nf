@@ -5,11 +5,6 @@ params.absolute_path_project_root_dir = "$params.absolute_path_to_project_root_d
 params.path_to_bed_files = "$params.path_to_bed_files"
 params.path_to_bam_files = "$params.path_to_bam_files"
 
-/*
-make directory for DMRs split chunk files
-*/
-process_out = file("$params.output_directory/process_out/")
-
 
 process PROCESS_BAM_FILES() {
 

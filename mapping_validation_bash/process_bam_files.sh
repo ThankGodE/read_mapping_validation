@@ -83,3 +83,52 @@ do
 
     esac
 done
+
+
+_check_mandatory_cli_arguments() {
+
+  echo -e "checking mandatory commandline arguments...\n"
+
+  if [ ! -d "${PATH_TO_OUTPUT_DIRECTORY}" ] || [ ! -d "${PATH_TO_BED_FILES}" ] || [ ! -f "${PATH_TO_BAM_FILES}" ] ||
+        [ ! -f "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" ] ; then
+         echo -e "\nERROR: Options supplied to -o, -i and -d must be directories that exists,
+                  while -d must be python file that exists \n" >&2;
+         Help
+         exit 1
+  fi
+
+}
+
+_remove_existing_matrix_files() {
+
+  echo -e "removing matrix files...\n";
+
+  ALL_FORMER_MATRIX_FILES="$(find "$PATH_TO_OUTPUT_DIRECTORY" -type f -name "*.csv" | wc -l)";
+
+  if [ $REMOVE_PATH == "true" ] && [ -f "${ALL_FORMER_MATRIX_FILES}" ]; then
+
+    rm "$ALL_FORMER_MATRIX_FILES";
+
+  fi
+}
+
+_process_bam_files() {
+
+
+  echo -e "processing bam files...\n";
+
+  echo "python $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
+    -a $PATH_TO_BAM_FILES"
+
+  python "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
+  -a "${PATH_TO_BAM_FILES}"
+
+}
+
+_main() {
+
+  _process_bam_files;
+
+}
+
+_main;
