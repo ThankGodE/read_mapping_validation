@@ -9,7 +9,6 @@ Required:
     - python-dotenv>=1.0.0
 
 """
-import sys
 
 # Futures local application libraries, source package
 from addscriptdir2path import add_package2env_var
