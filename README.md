@@ -9,15 +9,54 @@ Required:
 - python-dotenv>=1.0.0
 - for additional dependencies, see requirements.txt
 
-## Usage
+# Usage
+
+## 1. Set up the environment
 
 ```
-python read_mapping_validation.py --help
+git clone https://github.com/ThankGodE/read_mapping_validation.git
+cd read_mapping_validation
+```
+
+## 2. then run any of the commands below. NextFlow is preferred
+
+
+## 3. Run the Python script and Bash Script using NextFlow (PREFERRED)
+
+
+```
+nextflow run process_bam_file.nf process_bam_file.config
 ```
 
 ### Example
 
 ```
-python read_mapping_validation.py \
-    -o /path/to/output_directory -i /path/to/bed/ -a /path/to/bam/ 
+nextflow run mapping_validation_nextflow/process_bam_file.nf -c mapping_validation_nextflow/process_bam_file.config 
+```
+
+
+## 4. Run the Python script using Bash (OPTIONAL)
+
+```
+mapping_validation_bash/process_bam_files.sh -h
+```
+
+### Example
+
+```
+mapping_validation_bash/process_bam_files.sh \
+    -o example_data/output/ -i example_data/input/ -a example_data/input/ 
+```
+
+## 5. Run the Python script directly (OPTIONAL)
+
+```
+python3 mapping_validation_python/src/main/process_bam_files.py --help
+```
+
+### Example
+
+```
+python3 read_mapping_validation.py \
+    -o example_data/output/ -i example_data/input/ -a example_data/input/
 ```

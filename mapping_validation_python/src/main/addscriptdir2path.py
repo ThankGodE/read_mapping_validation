@@ -83,8 +83,7 @@ def specifically_load_files(file2load: str) -> None:
         path2package = os.getenv("SOURCEPKGPATH")
         environment_variable_file_dirname = os.path.dirname(file2load)
 
-        sys.path.append(path2package)
-        sys.path.append(environment_variable_file_dirname)
+        sys.path.append(os.path.join(environment_variable_file_dirname, path2package))
 
 
 def run_script_base_dir() -> str:

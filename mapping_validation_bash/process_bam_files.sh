@@ -32,7 +32,7 @@ options
     -o    path to output directory
     -i    path to bed files
     -a    path to bam files
-    -d    absolute directory path to the Python script to process banm files: process_bam_files.py .
+    -d    absolute directory path to the Python script to process bam files: process_bam_files.py .
           Default: ${ABSOLUTE_PATH_TO_PYTHON_PREDICT_CANCER_TYPES_SCRIPT};
     -f    force remove existing output files previously created. e.g. true or false. Default=false
     -h    Display Help";
@@ -57,8 +57,7 @@ _get_bash_script_directory() {
   echo "$PARENT_DIR_ALL_SCRIPTS";
 
 }
-project_root_directory="$(dirname "$(_get_bash_script_directory)")";
-
+project_root_directory="$(_get_bash_script_directory)";
 
 PATH_TO_BED_FILES="";
 PATH_TO_OUTPUT_DIRECTORY="";
@@ -117,11 +116,17 @@ _process_bam_files() {
 
   echo -e "processing bam files...\n";
 
-  echo "python $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
+  VIRTUAL_ENVIRONMENT_ACTIVATE="$project_root_directory/mapping_validation_python/venv/bin/activate";
+
+  source "$VIRTUAL_ENVIRONMENT_ACTIVATE";
+
+  echo "python3 $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
     -a $PATH_TO_BAM_FILES"
 
-  python "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
+  python3 "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
   -a "${PATH_TO_BAM_FILES}"
+
+  deactivate
 
 }
 
