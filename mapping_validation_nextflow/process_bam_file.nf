@@ -10,15 +10,15 @@ process PROCESS_BAM_FILES() {
 
     publishDir params.output_directory, mode:'copy'
     input:
-    path output_directory
+    val place_hold_input
 
     output:
     val "process_bam_files_completed"
 
     script:
     """
-    $params.absolute_path_project_root_dir/mapping_validation_python/src/main/process_bam_file.py \
-    -o $output_directory -i $params.path_to_bed_files -a $params.path_to_bam_files
+    $params.absolute_path_project_root_dir/mapping_validation_bash/process_bam_files.sh \
+    -o $params.output_directory -i $params.path_to_bed_files -a $params.path_to_bam_files
     """
 
 }

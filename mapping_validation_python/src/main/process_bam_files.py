@@ -9,18 +9,21 @@ Required:
     - for additional dependencies, see requirements.txt
 
 """
+import sys
 
 # Futures local application libraries, source package
 from addscriptdir2path import add_package2env_var
+
+# re-define system path to include modules, packages
+# and libraries in environment variable
+add_package2env_var()
+
 from package.bamoperations.bamoperations import BamOperator
 from package.commandlineoperations.commandline_input_argument_getter import CliInputArgumentGetter
 from package.datastructureoperations.listoperations.listhandlers import get_first_element
 from package.fileoperations.filehandlers import globally_get_all_files
 from package.profiling.profiling import begin_profiling, end_profiling, ProfileLogger
 
-# re-define system path to include modules, packages
-# and libraries in environment variable
-add_package2env_var()
 
 # profiling begins
 profiling_starting = begin_profiling("")

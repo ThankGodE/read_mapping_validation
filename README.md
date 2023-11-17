@@ -9,7 +9,10 @@ Required:
 - python-dotenv>=1.0.0
 - for additional dependencies, see requirements.txt
 
-## Usage
+
+
+
+## Usage - Run the Python script directly
 
 ```
 python read_mapping_validation.py --help
