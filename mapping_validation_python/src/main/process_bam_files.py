@@ -9,7 +9,6 @@ Required:
     - for additional dependencies, see requirements.txt
 
 """
-import sys
 
 # Futures local application libraries, source package
 from addscriptdir2path import add_package2env_var
@@ -66,7 +65,6 @@ def main() -> None:
 
         if isinstance(e, FileNotFoundError):
             raise FileNotFoundError(e)
-
 
 
 ###################################################################################

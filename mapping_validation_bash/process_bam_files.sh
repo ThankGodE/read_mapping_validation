@@ -116,11 +116,17 @@ _process_bam_files() {
 
   echo -e "processing bam files...\n";
 
-  echo "python $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
+  VIRTUAL_ENVIRONMENT_ACTIVATE="$project_root_directory/mapping_validation_python/venv/bin/activate";
+
+  source "$VIRTUAL_ENVIRONMENT_ACTIVATE";
+
+  echo "python3 $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
     -a $PATH_TO_BAM_FILES"
 
-  python "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
+  python3 "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
   -a "${PATH_TO_BAM_FILES}"
+
+  deactivate
 
 }
 
