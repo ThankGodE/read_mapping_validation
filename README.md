@@ -1,6 +1,6 @@
-# read mapping counts and fasta extraction
+# Read mapping counts and fasta extraction
 
-This script:
+This script does the following:
 1. performs read counts for the regions specified in an input BED file and outputs it in JSON format.
 2. extract reads in the regions and convert it into a FASTA file
 
@@ -25,7 +25,7 @@ cd read_mapping_validation
 
 
 ```
-nextflow run process_bam_file.nf process_bam_file.config
+nextflow run process_bam_file.nf -c process_bam_file.config
 ```
 
 ### Example
@@ -51,19 +51,42 @@ mapping_validation_bash/process_bam_files.sh \
 ## 5. Run the Python script directly (OPTIONAL)
 
 ```
+source mapping_validation_python/venv/bin/activate
+
 python3 mapping_validation_python/src/main/process_bam_files.py --help
+
+deactivate
 ```
 
 ### Example
 
 ```
+source mapping_validation_python/venv/bin/activate
+
 python3 read_mapping_validation.py \
     -o example_data/output/ -i example_data/input/ -a example_data/input/
+
+deactivate
 ```
 
 
 ## Run test cases
 
 ```
-pytest -s -k "test_" -q mapping_validation_python/test/test_functions/test_process_bam_files.py
+source mapping_validation_python/venv/bin/activate
+
+cd mapping_validation_python/test/test_functions/
+```
+
+### Example unit test per for each method
+
+```
+pytest -s -k "test_" -q test_process_bam_files.py::TestBamOperator::test_process_bam_files
+```
+
+
+### Example integration tests for the whole application
+
+```
+pytest -s -k "test_" -q test_process_bam_files.py
 ```
