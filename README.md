@@ -1,4 +1,4 @@
-# read_mapping_validation
+# read mapping counts and fasta extraction
 
 This script:
 1. performs read counts for the regions specified in an input BED file and outputs it in JSON format.
@@ -59,4 +59,11 @@ python3 mapping_validation_python/src/main/process_bam_files.py --help
 ```
 python3 read_mapping_validation.py \
     -o example_data/output/ -i example_data/input/ -a example_data/input/
+```
+
+
+## Run test cases
+
+```
+pytest -s -k "test_" -q mapping_validation_python/test/test_functions/test_process_bam_files.py
 ```
