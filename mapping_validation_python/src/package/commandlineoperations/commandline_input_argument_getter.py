@@ -20,7 +20,7 @@ class CliInputArgumentGetter:
     def get_cli_input_arguments(cls, args=None) -> argparse.Namespace:
         """gets input arguments from the commandline interface """
 
-        parser = argparse.ArgumentParser(prog="process_bam_file.py", usage="""process_bam_file.py -h""",
+        parser = argparse.ArgumentParser(prog="process_bam_files.py", usage="""process_bam_files.py -h""",
                                          formatter_class=argparse.ArgumentDefaultsHelpFormatter, description=("""
                     This script:
                         1. performs read counts for the regions specified in an input BED file 
