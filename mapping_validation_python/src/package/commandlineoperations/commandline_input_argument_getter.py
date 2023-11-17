@@ -28,9 +28,9 @@ class CliInputArgumentGetter:
                         2. extract reads in the regions and convert it into a FASTA file
                     
                     Required:
-                        - Pandas
                         - Python >= 3.10
                         - python-dotenv>=1.0.0
+                        - for additional dependencies, see requirements.txt
 
                 """), )
         parser.add_argument("-o", "--path2out", help="absolute directory path to processed output files ",
