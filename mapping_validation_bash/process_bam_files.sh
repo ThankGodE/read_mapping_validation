@@ -116,15 +116,19 @@ _process_bam_files() {
 
   echo -e "processing bam files...\n";
 
-  VIRTUAL_ENVIRONMENT_ACTIVATE="$project_root_directory/mapping_validation_python/venv/bin/activate";
+  REQUIREMENTS_FILE="$project_root_directory/mapping_validation_python/requirements.txt"
 
-  source "$VIRTUAL_ENVIRONMENT_ACTIVATE";
+   python3 -m venv venv && \
+   . venv/bin/activate && \
+   pip install --upgrade pip && \
+   pip install -r $REQUIREMENTS_FILE
 
-  echo "python3 $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
+  echo "venv/bin/python3 $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT -o $PATH_TO_OUTPUT_DIRECTORY -i $PATH_TO_BED_FILES \
     -a $PATH_TO_BAM_FILES"
 
-  python3 "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
+  venv/bin/python3 "${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT}" -o "${PATH_TO_OUTPUT_DIRECTORY}" -i "${PATH_TO_BED_FILES}" \
   -a "${PATH_TO_BAM_FILES}"
+
 
   deactivate
 

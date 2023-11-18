@@ -32,13 +32,13 @@ vim mapping_validation_nextflow/process_bam_file.config
 
 
 ```
-nextflow run process_bam_file.nf -c process_bam_file.config
+nextflow run process_bam_file.nf -c process_bam_file.config -with-singularity
 ```
 
 ### Example
 
 ```
-nextflow run mapping_validation_nextflow/process_bam_file.nf -c mapping_validation_nextflow/process_bam_file.config 
+nextflow run mapping_validation_nextflow/process_bam_file.nf -c mapping_validation_nextflow/process_bam_file.config -with-singularity
 ```
 
 
