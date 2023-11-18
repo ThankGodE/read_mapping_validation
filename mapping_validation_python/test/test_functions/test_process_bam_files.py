@@ -154,7 +154,7 @@ class TestFileWriter:
         expected = os.path.join(dir_basename_of_run_script, "test_data/output/read_counts0.json")
 
         path_to_json_out = os.path.join(dir_basename_of_run_script, "test_data/output/write_test_actual.json")
-        data = {"chrM-5000-7500": 2174}
+        data = {"chrM-5000-7500": 2174, "chrM-6000-8500": 2174}
 
         file_writer = FileWriter(path_to_json_out, "w")
         file_writer.write_json(data)

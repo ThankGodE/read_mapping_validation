@@ -40,7 +40,7 @@ class BamOperator:
     def process_bam_files(self) -> None:
         """process bam files """
 
-        bed_file_content: list[str] = read_csv(self.bed_file, delimiter=Delimiters.TAB_SEPERATOR, )
+        bed_file_content: list[str] = read_csv(self.bed_file, delimiter=Delimiters.TAB_SEPERATOR)
 
         for count, bam_file in enumerate(self.bam_files):
 
@@ -140,7 +140,15 @@ class BamOperator:
         for read in bam_file_content:
 
             if read.is_mapped and read.reference_name == chromosome:
-                if read.reference_start >= start and read.reference_end <= end:
+                if BamOperator.__is_interval(read, start, end):
                     reads[read.query_name] = read.query_sequence
 
         return reads
+
+    @classmethod
+    def __is_interval(cls, read: object(), bed_start: int, bed_end: int) -> bool:
+        """ check if read is within interval """
+
+        return read.reference_start >= bed_start and read.reference_end <= bed_end
+
+
