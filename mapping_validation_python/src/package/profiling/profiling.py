@@ -11,7 +11,7 @@ import sys
 import time
 import logging
 import resource
-import psutil  # , os   # better than resource
+import psutil
 
 
 class ProfileLogger:
