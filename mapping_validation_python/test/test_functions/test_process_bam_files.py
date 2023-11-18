@@ -13,12 +13,11 @@ pytest -s -vv test_process_bam_files.py
 """
 import logging
 import os
-import sys
 
 import pytest
 
 # Futures local application libraries, source package
-from addscriptdir2path import add_package2env_var
+from .addscriptdir2path import add_package2env_var
 
 # re-define system path to include modules, packages,
 # and libraries in environment variable
@@ -36,9 +35,6 @@ from package.fileoperations.filehandlers import globally_get_all_files
 #################################################################################
 
 dir_basename_of_run_script = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(pytestconfig.getoption("path2out"))
-sys.exit()
-
 
 #################################################################################
 # pytest config options #########################################################
