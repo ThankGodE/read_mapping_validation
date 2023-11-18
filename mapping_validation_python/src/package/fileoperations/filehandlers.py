@@ -18,7 +18,7 @@ def globally_get_all_files(path2directory: str, file_extension=None) -> list:
             recursive=True,
             )
 
-    return decode_bom(all_files)
+    return __decode_bom(all_files)
 
 
 def read_csv(csv_file: str, delimiter: str) -> list[str]:
@@ -29,7 +29,7 @@ def read_csv(csv_file: str, delimiter: str) -> list[str]:
         return list(csv.reader(csv_file_content, delimiter=delimiter))
 
 
-def decode_bom(all_path2file: list) -> list:
+def __decode_bom(all_path2file: list) -> list:
     """ decodes BOM i string """
 
     all_files_bom_decoded = [
