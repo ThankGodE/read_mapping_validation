@@ -78,10 +78,12 @@ source mapping_validation_python/venv/bin/activate
 cd mapping_validation_python/test/
 ```
 
-### Example unit test per for each method
+### Examples unit test per for each method
 
 ```
 pytest -s -vv -k "test_" -q test_functions/test_process_bam_files.py::TestBamOperator::test_process_bam_files
+
+pytest -s -vv -k "test_" -q test_functions/test_process_bam_files.py::test_get_second_element
 ```
 
 
