@@ -161,8 +161,7 @@ class TestFileWriter:
 
         comparative_result = filecmp.cmp(expected, path_to_json_out, shallow=False)
 
-        assert comparative_result is
-
+        assert comparative_result is False
 
     def test_write_fasta_positive(self):
         """ test the fasta file writing method for positive tests"""
@@ -173,7 +172,7 @@ class TestFileWriter:
 
         with open(expected, "r") as file:
 
-            all_fasta_file_content = file.readlines()
+            all_fasta_file_content = [line.strip() for line in file.readlines()]
 
         all_fasta_file_content_data = Delimiters.NEW_LINER.join(all_fasta_file_content)
 
@@ -183,6 +182,22 @@ class TestFileWriter:
         comparative_result = filecmp.cmp(expected, path_to_fasta_out, shallow=False)
 
         assert comparative_result is True
+
+    def test_write_fasta_negative(self):
+        """ test the fasta file writing method for negative tests"""
+
+        expected = os.path.join(dir_basename_of_run_script, "test_data/output/write_test_expected.fasta")
+
+        path_to_fasta_out = os.path.join(dir_basename_of_run_script, "test_data/output/write_test_actual.fasta")
+
+        data = ">header\nASDAASDF"
+
+        file_writer = FileWriter(path_to_fasta_out, "w")
+        file_writer.write_str(data)
+
+        comparative_result = filecmp.cmp(expected, path_to_fasta_out, shallow=False)
+
+        assert comparative_result is False
 
 def test_read_csv(test_path2bed: str, test_bed_extension: str, capsys: str) -> None:
     """ test the read csv function """
