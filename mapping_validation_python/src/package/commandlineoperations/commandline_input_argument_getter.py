@@ -47,7 +47,7 @@ class CliInputArgumentGetter:
         """ check or verify input arguments """
 
         if not os.path.exists(cli_input_arguments.path2bam):
-            bam_path_error_message = "bam file director {} does not exist!"
+            bam_path_error_message = "bam file directory {} does not exist!"
             raise FileNotFoundError(bam_path_error_message.format(cli_input_arguments.path2bam))
 
         if not os.path.exists(cli_input_arguments.path2out):

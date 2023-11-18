@@ -16,6 +16,13 @@ Required:
 ```
 git clone https://github.com/ThankGodE/read_mapping_validation.git
 cd read_mapping_validation
+pwd
+```
+
+## 3. replace the path env.PROJECT_CODE_BASE_SRC_DIR in NextFlow config file with the absolute path of pwd from above
+
+```
+vim mapping_validation_nextflow/process_bam_file.config
 ```
 
 ## 2. then run any of the commands below. NextFlow is preferred

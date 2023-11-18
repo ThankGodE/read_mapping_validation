@@ -28,10 +28,10 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 # install python
 RUN apt update && \
     apt install -y python3
-
-# install pip
-RUN conda update conda
-RUN conda install -c anaconda pip
+#
+## install pip
+#RUN conda update conda
+#RUN conda install -c anaconda pip
 
 #creating a working directory
 WORKDIR /my_directory
