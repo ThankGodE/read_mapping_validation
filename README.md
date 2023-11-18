@@ -21,7 +21,7 @@ cd read_mapping_validation
 ## 2. then run any of the commands below. NextFlow is preferred
 
 
-## 3. Run the Python script and Bash Script using NextFlow (PREFERRED)
+## 3. Run the Python script and Bash Script using NextFlow (PREFERRED). Entry point of the pipeline:
 
 
 ```
