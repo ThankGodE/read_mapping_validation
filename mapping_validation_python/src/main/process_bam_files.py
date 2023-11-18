@@ -58,13 +58,13 @@ def main() -> None:
     except (ValueError, TypeError, FileNotFoundError) as e:
 
         if isinstance(e, ValueError):
-            raise ValueError(e)
+            raise ValueError(e) from e
 
         if isinstance(e, TypeError):
-            raise TypeError(e)
+            raise TypeError(e) from e
 
         if isinstance(e, FileNotFoundError):
-            raise FileNotFoundError(e)
+            raise FileNotFoundError(e) from e
 
 
 ###################################################################################

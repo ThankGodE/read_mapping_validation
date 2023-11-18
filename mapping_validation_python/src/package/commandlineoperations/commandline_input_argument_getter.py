@@ -47,13 +47,16 @@ class CliInputArgumentGetter:
         """ check or verify input arguments """
 
         if not os.path.exists(cli_input_arguments.path2bam):
-            raise FileNotFoundError("bam file director {} does not exist!".format(cli_input_arguments.path2bam))
+            bam_path_error_message = "bam file director {} does not exist!"
+            raise FileNotFoundError(bam_path_error_message.format(cli_input_arguments.path2bam))
 
         if not os.path.exists(cli_input_arguments.path2out):
-            raise FileNotFoundError("output directory {} does not exist!".format(cli_input_arguments.path2out))
+            path_out_error_message = "output directory {} does not exist!"
+            raise FileNotFoundError(path_out_error_message.format(cli_input_arguments.path2out))
 
         if not os.path.exists(cli_input_arguments.path2bed):
-            raise FileNotFoundError("genome fasta file {} does not exist!".format(cli_input_arguments.path2beds))
+            bed_path_error_message = "genome fasta file {} does not exist!"
+            raise FileNotFoundError(bed_path_error_message.format(cli_input_arguments.path2beds))
 
         CliInputArgumentGetter.__check_bam_bed_files(cli_input_arguments)
 
@@ -65,8 +68,11 @@ class CliInputArgumentGetter:
         bed_files: list = globally_get_all_files(cli_input_arguments.path2bed, cli_input_arguments.bed_extension)
 
         if not len(bam_files) or not len(bed_files):
-            raise FileNotFoundError(
-                "{} and {} does not contain files ending with file extensions {} and/or {} respectively!".format(
+
+            bam_files_error_message = "{} and {} does not contain files ending with file extensions {} and/or {} \
+                                      respectively!"
+
+            raise FileNotFoundError(bam_files_error_message.format(
                     cli_input_arguments.path2bam, cli_input_arguments.path2bed,
                     cli_input_arguments.bam_extension, cli_input_arguments.bed_extension))
 
@@ -84,25 +90,29 @@ class CliInputArgumentGetter:
         """ check or verify input arguments """
 
         if not os.path.exists(bam_file):
-            raise FileNotFoundError("{} {} does not exist!".format(file_type, bam_file))
+            bam_file_error = "{} {} does not exist!"
+            raise FileNotFoundError(bam_file_error.format(file_type, bam_file))
 
         try:
 
             pysam.AlignmentFile(bam_file, "rb")
 
-        except ValueError:
-            raise ValueError("the bam file {} does not contain any alignment data".format(bam_file))
+        except ValueError as e:
+            value_error_message = "the bam file {} does not contain any alignment data"
+            raise ValueError(value_error_message.format(bam_file)) from e
 
     @classmethod
     def __check_bed_file(cls, bed_file: str, file_type: str) -> None:
         """ check or verify input arguments """
 
         if not os.path.exists(bed_file):
-            raise FileNotFoundError("{} {} does not exist!".format(file_type, bed_file))
+            bed_file_path_error_message = "{} {} does not exist!"
+            raise FileNotFoundError(bed_file_path_error_message.format(file_type, bed_file))
 
         try:
 
             read_csv(bed_file, "\t")
 
-        except ValueError:
-            raise ValueError("the {} {} does not contain any data".format(file_type, bed_file))
+        except ValueError as e:
+            bed_file_value_error_message = "the {} {} does not contain any data"
+            raise ValueError(bed_file_value_error_message.format(file_type, bed_file)) from e
