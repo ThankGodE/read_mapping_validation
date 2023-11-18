@@ -32,7 +32,7 @@ class FileWriter:
 
             json.dump(data, json_output_file_content)
 
-        logging.info("writing {} to {}".format(data, self.file_path))
+        logging.info("writing data to {}".format(self.file_path))
 
     def write_str(self, data: str) -> None:
         """
@@ -44,4 +44,4 @@ class FileWriter:
         with open(self.file_path, self.mode) as file:
             file.write(data)
 
-        logging.info("writing {} to {}".format(data, self.file_path))
+        logging.info("writing data to {}".format(self.file_path))

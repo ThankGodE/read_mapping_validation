@@ -141,7 +141,7 @@ class BamOperator:
 
             if read.is_mapped and read.reference_name == chromosome:
                 if BamOperator.__is_interval(read, start, end):
-                    reads[read.query_name] = read.query_sequence
+                    reads[read.query_name] = read.query_sequence.upper()
 
         return reads
 
