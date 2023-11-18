@@ -13,19 +13,20 @@ pytest -s -vv test_process_bam_files.py
 """
 import logging
 import os
-import sys
 
 import pytest
 
 # Futures local application libraries, source package
-from addscriptdir2path import add_package2env_var
+from .addscriptdir2path import add_package2env_var
 
 # re-define system path to include modules, packages,
 # and libraries in environment variable
 add_package2env_var()
 
 from package.bamoperations.bamoperations import BamOperator
-from package.datastructureoperations.listoperations.listhandlers import get_first_element
+from package.enums.delimiter_enums import Delimiters
+from package.datastructureoperations.listoperations.listhandlers import (get_first_element, get_second_element,
+                                                                         get_third_element)
 from package.fileoperations.filehandlers import globally_get_all_files
 
 
@@ -36,9 +37,6 @@ from package.fileoperations.filehandlers import globally_get_all_files
 #################################################################################
 
 dir_basename_of_run_script = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(pytestconfig.getoption("path2out"))
-sys.exit()
-
 
 #################################################################################
 # pytest config options #########################################################
@@ -102,6 +100,77 @@ class TestBamOperator:
 
         assert err == ""
         assert out == ""
+
+
+class TestDelimiters:
+    """ test the delimiters enums """
+
+    def test_delimiters(self):
+        """test the variables or attributes in the delimiters enums"""
+
+        expected_tab = "\t"
+        expected_hyphen = "-"
+        expected_fasta_identifier = ">"
+        expected_new_liner = "\n"
+
+        actual_tab = Delimiters.TAB_SEPERATOR
+        actual_hyphen = Delimiters.HYPHEN
+        actual_fasta_identifier = Delimiters.FASTA_IDENTIFIER
+        actual_new_liner = Delimiters.NEW_LINER
+
+        assert actual_tab == expected_tab
+        assert actual_hyphen == expected_hyphen
+        assert actual_fasta_identifier == expected_fasta_identifier
+        assert actual_new_liner == expected_new_liner
+
+        assert actual_tab != expected_hyphen
+        assert actual_hyphen != expected_fasta_identifier
+        assert actual_new_liner != expected_fasta_identifier
+
+
+def test_get_first_element() -> None:
+    "Test get_first_element in module listhandlers.py"
+
+    contents = ["A", "B", "C"]
+
+    expected = "A"
+
+    actual = get_first_element(contents)
+
+    assert actual == expected
+    assert actual != "B"
+    assert actual != "C"
+
+
+def test_get_second_element() -> None:
+    "Test get_second_element in module listhandlers.py"
+
+    contents = ["A", "B", "C"]
+
+    expected = "B"
+
+    actual = get_second_element(contents)
+
+    assert actual == expected
+    assert actual != "A"
+    assert actual != "C"
+
+
+def test_get_third_element() -> None:
+    "Test get_third_element in module listhandlers.py"
+
+    contents = ["A", "B", "C"]
+
+    expected = "C"
+
+    actual = get_third_element(contents)
+
+    assert actual == expected
+    assert actual != "A"
+    assert actual != "B"
+
+
+
 
 
 
