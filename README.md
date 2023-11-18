@@ -19,16 +19,18 @@ cd read_mapping_validation
 pwd
 ```
 
-## 3. replace the path env.PROJECT_CODE_BASE_SRC_DIR in NextFlow config file with the absolute path of pwd from above
+## 3. replace the path ```env.PROJECT_CODE_BASE_SRC_DIR``` in NextFlow config file with the absolute path ```(i.e. the output of pwd)``` of pwd from above
 
 ```
 vim mapping_validation_nextflow/process_bam_file.config
 ```
 
+If the absolute path for the input and output directories changes, please edit the process_bam_file.config file accordingly to reflect this new paths. 
+
 ## 2. then run any of the commands below. NextFlow is preferred
 
 
-## 3. Run the Python script and Bash Script using NextFlow (PREFERRED). Entry point of the pipeline:
+## A. Run the Python script and Bash Script using NextFlow (PREFERRED). Entry point of the pipeline:
 
 
 ```
@@ -42,7 +44,7 @@ nextflow run mapping_validation_nextflow/process_bam_file.nf -c mapping_validati
 ```
 
 
-## 4. Run the Python script using Bash (OPTIONAL)
+## B. Run the Python script using Bash (OPTIONAL)
 
 ```
 mapping_validation_bash/process_bam_files.sh -h
@@ -55,7 +57,7 @@ mapping_validation_bash/process_bam_files.sh \
     -o example_data/output/ -i example_data/input/ -a example_data/input/ 
 ```
 
-## 5. Run the Python script directly (OPTIONAL)
+## C. Run the Python script directly (OPTIONAL)
 
 ```
 source mapping_validation_python/venv/bin/activate
@@ -77,7 +79,7 @@ deactivate
 ```
 
 
-## Run test cases
+## 3. Run test cases
 
 ```
 source mapping_validation_python/venv/bin/activate
