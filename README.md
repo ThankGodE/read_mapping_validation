@@ -27,7 +27,7 @@ cd read_mapping_validation
 pwd
 ```
 
-## 2. replace the path ```env.PROJECT_CODE_BASE_SRC_DIR``` in NextFlow config file with the absolute path ```(i.e. the output of pwd)``` of pwd from above
+## 2. edit only one line in the NextFlow ```process_bam_file.config``` file by replacing the path variable string of ```env.PROJECT_CODE_BASE_SRC_DIR``` with the absolute path ```(i.e. the output of pwd)``` of pwd from above
 
 ```
 vim mapping_validation_nextflow/process_bam_file.config
@@ -51,7 +51,7 @@ The below steps outline how to run test cases for the Python script in this pipe
 
 ### 1. set up testing environment - install Python virtual environment and test dependencies
 
-No need to git clone and ```cd read_mapping_validation``` if you're previously done this and in ```read_mapping_validation``` directory 
+No need to git clone and ```cd read_mapping_validation``` if you've previously done this and already in ```read_mapping_validation``` directory 
 ```
 git clone https://github.com/ThankGodE/read_mapping_validation.git
 ```
@@ -65,13 +65,15 @@ CURRENT_WORKING_DIRECTORY=$(echo $PWD)
 REQUIREMENTS_FILE=$CURRENT_WORKING_DIRECTORY"/mapping_validation_python/requirements.txt" 
 ```
 
-Install virtual environment: Does not require sudo privileges
+Install Python virtual environment with one of the below methods:
+
+Does not require sudo privileges
 ```
 python3.10 -m venv --without-pip venv && source venv/bin/activate && curl https://bootstrap.pypa.io/get-pip.py | python && \
     pip install -r $REQUIREMENTS_FILE
 ```
 
-Install virtual environment: Requires sudo privileges
+Requires sudo privileges
 ```
 sudo apt install python3.10-venv && \
     python3 -m venv venv && \
