@@ -33,7 +33,7 @@ options
     -i    path to bed files
     -a    path to bam files
     -d    absolute directory path to the Python script to process bam files: process_bam_files.py .
-          Default: ${ABSOLUTE_PATH_TO_PYTHON_PREDICT_CANCER_TYPES_SCRIPT};
+          Default: ${ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT};
     -f    force remove existing output files previously created. e.g. true or false. Default=false
     -h    Display Help";
 
@@ -135,6 +135,15 @@ _process_bam_files() {
 }
 
 _main() {
+
+echo -e "
+path to output directory: $PATH_TO_OUTPUT_DIRECTORY
+path to bed files: $PATH_TO_BED_FILES
+path to bam files: $PATH_TO_BAM_FILES
+absolute directory path to the Python script: $ABSOLUTE_PATH_TO_PROCESS_BAM_FILES_PYTHON_SCRIPT
+force remove existing output files previously created: $REMOVE_PATH
+
+"
 
   _process_bam_files;
 
