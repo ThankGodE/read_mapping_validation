@@ -25,17 +25,12 @@ pwd
 vim mapping_validation_nextflow/process_bam_file.config
 ```
 
-If the absolute path for the input and output directories changes, please edit the process_bam_file.config file accordingly to reflect this new paths. 
+If the absolute path for the input and output directories changes, please edit the process_bam_file.config file accordingly to reflect these new paths. 
 
 ## 2. then run any of the commands below. NextFlow is preferred
 
 
-## A. Run the Python script and Bash Script using NextFlow (PREFERRED). Entry point of the pipeline:
-
-
-```
-nextflow run process_bam_file.nf -c process_bam_file.config -with-singularity
-```
+## A. Run the Python script and Bash Script using NextFlow (PREFERRED METHOD). Entry point of the pipeline:
 
 ### Example
 
@@ -44,7 +39,7 @@ nextflow run mapping_validation_nextflow/process_bam_file.nf -c mapping_validati
 ```
 
 
-## B. Run the Python script using Bash (OPTIONAL)
+## B. Run the Python script using Bash (sub-module - OPTIONAL)
 
 ```
 mapping_validation_bash/process_bam_files.sh -h
@@ -57,7 +52,7 @@ mapping_validation_bash/process_bam_files.sh \
     -o example_data/output/ -i example_data/input/ -a example_data/input/ 
 ```
 
-## C. Run the Python script directly (OPTIONAL)
+## C. Run the Python script directly (sub-module - OPTIONAL)
 
 ```
 source mapping_validation_python/venv/bin/activate
