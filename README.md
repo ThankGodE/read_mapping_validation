@@ -51,6 +51,7 @@ The below steps outline how to run test cases for the Python script in this pipe
 
 ### 1. set up testing environment - install Python virtual environment and test dependencies
 
+No need to git clone and ```cd read_mapping_validation``` if you're previously done this and in ```read_mapping_validation``` directory 
 ```
 git clone https://github.com/ThankGodE/read_mapping_validation.git
 ```
@@ -103,4 +104,9 @@ pytest -s -vv -k "test_" -q test_functions/test_process_bam_files.py::test_get_s
 
 ```
 pytest -s -vv -k "test_" -q test_functions/test_process_bam_files.py
+```
+
+### Deactivate the Python virtual environment when testing is completed
+```
+deactivate
 ```
