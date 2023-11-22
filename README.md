@@ -49,6 +49,14 @@ nextflow run mapping_validation_nextflow/process_bam_file.nf -c mapping_validati
 
 The below steps outline how to run test cases for the Python script in this pipeline:
 
+### Install NextFlow
+
+See pypi documentation: https://pypi.org/project/nextflow/
+
+```
+pip install nextflow
+```
+
 ### 1. set up testing environment - install Python virtual environment and test dependencies
 
 No need to git clone and ```cd read_mapping_validation``` if you've previously done this and already in ```read_mapping_validation``` directory 

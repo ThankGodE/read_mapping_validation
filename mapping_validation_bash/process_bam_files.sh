@@ -100,13 +100,20 @@ _check_mandatory_cli_arguments() {
 
 _remove_existing_matrix_files() {
 
-  echo -e "removing matrix files...\n";
+  echo -e "removing existing files...\n";
 
-  ALL_FORMER_MATRIX_FILES="$(find "$PATH_TO_OUTPUT_DIRECTORY" -type f -name "*.csv" | wc -l)";
+  ALL_FORMER_BED_FILES="$(find "$PATH_TO_OUTPUT_DIRECTORY" -type f -name "*.bed" | wc -l)";
+  ALL_FORMER_BAM_FILES="$(find "$PATH_TO_OUTPUT_DIRECTORY" -type f -name "*.bam" | wc -l)";
 
-  if [ $REMOVE_PATH == "true" ] && [ -f "${ALL_FORMER_MATRIX_FILES}" ]; then
+  if [ $REMOVE_PATH == "true" ] && [ -f "${ALL_FORMER_BED_FILES}" ]; then
 
-    rm "$ALL_FORMER_MATRIX_FILES";
+    rm "$ALL_FORMER_BED_FILES";
+
+  fi
+
+  if [ $REMOVE_PATH == "true" ] && [ -f "${ALL_FORMER_BAM_FILES}" ]; then
+
+    rm "$ALL_FORMER_BAM_FILES";
 
   fi
 }
@@ -145,7 +152,8 @@ force remove existing output files previously created: $REMOVE_PATH
 
 "
 
-  _process_bam_files;
+_remove_existing_matrix_files;
+_process_bam_files;
 
 }
 

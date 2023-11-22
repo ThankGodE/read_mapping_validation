@@ -28,7 +28,7 @@ class BamOperator:
         bam_files :list
            Path to bam files
         bed_file:str
-           Path to bwa meth bam file
+           Path to bed file
         output_directory:str
            Path to output directory
         """

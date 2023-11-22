@@ -1,6 +1,5 @@
 """
-A collection of classes or functions that evaluates proteins from nodes using keyword,
-pathway comments, function comments, and catalytic activity comments
+A collection of classes or functions that grabs commandline arguments
 """
 
 __name__ = "__main__"
